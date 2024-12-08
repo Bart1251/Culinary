@@ -6,12 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dbconfig_1 = require("./dbconfig");
 const routes_1 = __importDefault(require("./routes"));
+const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
+const port = 3000;
+app.use(express_1.default.json());
+app.use((0, cookie_parser_1.default)());
+app.use((0, cors_1.default)({
+    origin: "http://localhost:5173",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,
+}));
 app.use("/v1/", routes_1.default);
-const port = 6969;
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
 dbconfig_1.sequlize.sync({ alter: true, force: false }).then(() => {
     app.listen(port, () => {
         console.log(`Example app listening on port ${port}`);

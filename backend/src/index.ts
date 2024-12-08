@@ -1,14 +1,23 @@
 import express from 'express'
 import { sequlize } from './dbconfig'
 import router from './routes'
+import cors from "cors"
+import cookieParser from "cookie-parser";
 
 const app = express();
-app.use("/v1/", router);
-const port = 6969;
+const port = 3000;
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,
+  })
+);
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.use("/v1/", router);
 
 sequlize.sync({alter: true, force: false}).then(() => {
   app.listen(port, () => {
