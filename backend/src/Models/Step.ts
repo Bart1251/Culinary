@@ -1,9 +1,8 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import Recipe from "./Recipe";
-import User from "./User";
 
-@Table({tableName: "opinion", timestamps: true})
-class Opinion extends Model<Opinion> {
+@Table({tableName: "step", timestamps: false})
+class Step extends Model<Step> {
     @Column({type: DataType.STRING, allowNull: false})
     content: string;
 
@@ -12,12 +11,6 @@ class Opinion extends Model<Opinion> {
     recipeId: number;
     @BelongsTo(() => Recipe)
     recipe: Recipe;
-
-    @ForeignKey(() => User)
-    @Column({type: DataType.INTEGER, allowNull: false})
-    userId: number;
-    @BelongsTo(() => User)
-    user: User;
 }
 
-export default Opinion;
+export default Step;

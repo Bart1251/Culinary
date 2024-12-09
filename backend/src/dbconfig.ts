@@ -1,10 +1,11 @@
-import path from "path";
 import { Sequelize } from "sequelize-typescript";
 import Ingredient from "./models/Ingredient";
 import Opinion from "./models/Opinion";
 import Recipe from "./models/Recipe";
 import Unit from "./models/Unit";
 import User from "./models/User";
+import Category from "./models/Category";
+import Step from "./models/Step";
 
 export const sequlize = new Sequelize({
     dialect: "mysql",
@@ -16,7 +17,9 @@ export const sequlize = new Sequelize({
         Opinion,
         Recipe,
         Unit,
-        User
+        User,
+        Category,
+        Step
     ],
     timezone: "+01:00",  
 });

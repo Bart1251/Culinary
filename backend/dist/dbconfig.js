@@ -10,6 +10,8 @@ const Opinion_1 = __importDefault(require("./models/Opinion"));
 const Recipe_1 = __importDefault(require("./models/Recipe"));
 const Unit_1 = __importDefault(require("./models/Unit"));
 const User_1 = __importDefault(require("./models/User"));
+const Category_1 = __importDefault(require("./models/Category"));
+const Step_1 = __importDefault(require("./models/Step"));
 exports.sequlize = new sequelize_typescript_1.Sequelize({
     dialect: "mysql",
     username: "root",
@@ -20,7 +22,9 @@ exports.sequlize = new sequelize_typescript_1.Sequelize({
         Opinion_1.default,
         Recipe_1.default,
         Unit_1.default,
-        User_1.default
+        User_1.default,
+        Category_1.default,
+        Step_1.default
     ],
     timezone: "+01:00",
 });

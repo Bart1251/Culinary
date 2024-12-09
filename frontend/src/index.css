@@ -1,0 +1,33 @@
+.main-navbar {
+    height: 80px;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.2);
+}
+
+.main-content {
+    min-height: calc(100vh - 160px);
+}
+
+.main-footer {
+    height: 80px;
+    border-top: 1px solid rgba(100, 100, 100, 0.2);
+}
+
+.profile-sidebar {
+    border-right: 1px solid rgba(100, 100, 100, 0.1);
+    position: relative;
+    min-height: calc(100vh - 160px);
+}
+
+.profile-sidebar > div {
+    position: sticky;
+}
+
+.ingredient-list {
+    font-size: 20px;
+}
+
+.dots {
+    border-bottom: 2px dotted black;
+    height: 20px;
+    margin: 0 5px
+}
