@@ -1,6 +1,9 @@
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import User from "./User";
 import Category from "./Category";
+import Ingredient from "./Ingredient";
+import Step from "./Step";
+import Opinion from "./Opinion";
 
 @Table({tableName: "recipe", timestamps: true})
 class Recipe extends Model<Recipe> {
@@ -8,7 +11,7 @@ class Recipe extends Model<Recipe> {
     name: string;
     @Column({type: DataType.STRING, allowNull: false})
     description: string;
-    @Column({type: DataType.STRING, allowNull: false})
+    @Column({type: DataType.STRING, allowNull: true})
     imagePath: string;
     @Column({type: DataType.INTEGER, allowNull: false})
     difficulty: number;
@@ -26,6 +29,15 @@ class Recipe extends Model<Recipe> {
     categoryId: number;
     @BelongsTo(() => Category)
     category: Category;
+
+    @HasMany(() => Ingredient)
+    ingredient: Ingredient[];
+
+    @HasMany(() => Step)
+    steps: Step[];
+
+    @HasMany(() => Opinion)
+    opinions: Opinion[];
 }
 
 export default Recipe;

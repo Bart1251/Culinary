@@ -3,6 +3,7 @@ import { sequlize } from './dbconfig'
 import router from './routes'
 import cors from "cors"
 import cookieParser from "cookie-parser";
+import path from 'path';
 
 const app = express();
 const port = 3000;
@@ -16,6 +17,8 @@ app.use(
     optionsSuccessStatus: 204,
   })
 );
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/v1/", router);
 

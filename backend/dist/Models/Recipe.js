@@ -15,6 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
 const User_1 = __importDefault(require("./User"));
 const Category_1 = __importDefault(require("./Category"));
+const Ingredient_1 = __importDefault(require("./Ingredient"));
+const Step_1 = __importDefault(require("./Step"));
+const Opinion_1 = __importDefault(require("./Opinion"));
 let Recipe = class Recipe extends sequelize_typescript_1.Model {
 };
 __decorate([
@@ -26,7 +29,7 @@ __decorate([
     __metadata("design:type", String)
 ], Recipe.prototype, "description", void 0);
 __decorate([
-    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.STRING, allowNull: false }),
+    (0, sequelize_typescript_1.Column)({ type: sequelize_typescript_1.DataType.STRING, allowNull: true }),
     __metadata("design:type", String)
 ], Recipe.prototype, "imagePath", void 0);
 __decorate([
@@ -55,6 +58,18 @@ __decorate([
     (0, sequelize_typescript_1.BelongsTo)(() => Category_1.default),
     __metadata("design:type", Category_1.default)
 ], Recipe.prototype, "category", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => Ingredient_1.default),
+    __metadata("design:type", Array)
+], Recipe.prototype, "ingredient", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => Step_1.default),
+    __metadata("design:type", Array)
+], Recipe.prototype, "steps", void 0);
+__decorate([
+    (0, sequelize_typescript_1.HasMany)(() => Opinion_1.default),
+    __metadata("design:type", Array)
+], Recipe.prototype, "opinions", void 0);
 Recipe = __decorate([
     (0, sequelize_typescript_1.Table)({ tableName: "recipe", timestamps: true })
 ], Recipe);

@@ -31,7 +31,7 @@ interface RecipeFormData {
     description: string;
     difficulty: number;
     prepareTime: number;
-    userId?: number;
+    userId: number;
     categoryId: number;
     ingredients: IngredientFormData[];
     steps: string[];
@@ -40,4 +40,35 @@ interface RecipeFormData {
 interface Category {
     id: number;
     name: string;
+}
+
+interface Ingredient {
+    id: number;
+    name: string;
+    amount: number;
+    unit: Unit;
+}
+
+interface Step {
+    id: number;
+    content: string;
+}
+
+interface Opinion {
+    id: number;
+    content: string;
+}
+
+interface Recipe {
+    id: number;
+    name: string;
+    description: string;
+    difficulty: number;
+    prepareTime: number;
+    category: Category;
+    user: User;
+    ingredients: Ingredient[];
+    steps: Step[];
+    opinions: Opinion[];
+    imagePath: string;
 }

@@ -12,28 +12,28 @@ export const Profile = () => {
         <div className="h-100 d-flex flex-row">
             <div className="col-3 bg-body-secondary profile-sidebar">
                 <div className="d-flex flex-column align-items-center gap-3 p-3">
-                    <h3>Mój profil</h3>
-                    <img className="w-75 rounded-circle" src={defaultUser} />
-                    <h5>{user?.username}</h5>
+                    <h3 className="text-center">Mój profil</h3>
+                    <img className="col-12 rounded-circle" src={defaultUser} />
+                    <h5 className="text-center">{user?.username}</h5>
 
                     <hr className="w-100"/>
 
-                    <div className="w-100 d-flex flex-column gap-3">
+                    <div className="w-100 d-flex flex-column gap-3 align-items-center align-items-md-start">
                         <Link to="/profile" className="fs-5 d-flex gap-2 btn">
                             <span><ScrollText /></span>
-                            Moje przepisy
+                            <span className="d-none d-md-block">Moje przepisy</span>
                         </Link>
                         <Link to="/profile/addRecipe" className="fs-5 d-flex gap-2 btn">
                             <span><CirclePlus /></span>
-                            Dodaj przepis
+                            <span className="d-none d-md-block">Dodaj przepis</span>
                         </Link>
                         <Link to="/profile/settings" className="fs-5 d-flex gap-2 btn">
                             <span><Settings /></span>
-                            Ustawienia
+                            <span className="d-none d-md-block">Ustawienia</span>
                         </Link>
                         <div onClick={logoutUser} className="fs-5 d-flex gap-2 btn">
                             <span><LogOut /></span>
-                            Wyloguj
+                            <span className="d-none d-md-block">Wyloguj</span>
                         </div>
                     </div>
                 </div>

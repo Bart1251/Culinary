@@ -6,8 +6,6 @@ export const checkAuthStatus = async () => {
 };
 
 export const register = async (data: UserRegisterData) => {
-    console.log(data);
-    
     await apiClient.post("user/register", data);
 }
 
