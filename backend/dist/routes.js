@@ -29,5 +29,8 @@ router.get("/unit", UnitController_1.getUnits);
 router.get("/category", CategoryController_1.getCategories);
 router.post("/recipe", upload.single("image"), RecipeController_1.createRecipe);
 router.get("/recipe/user/:userId", RecipeController_1.getUserRecipes);
+router.delete("/recipe/:recipeId", RecipeController_1.deleteRecipe);
+router.get("/recipe/:recipeId", RecipeController_1.getRecipe);
+router.patch("/recipe", upload.single("image"), RecipeController_1.updateRecipe);
 exports.default = router;
 //# sourceMappingURL=routes.js.map

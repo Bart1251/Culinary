@@ -10,7 +10,7 @@ import { useAuth } from "../../contexts/AuthContext";
 export const AddRecipe = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const [recipe, setRecipe] = useState<RecipeFormData>({
+    const [recipe, setRecipe] = useState<RecipeAddData>({
         name: "",
         description: "",
         difficulty: -1,
@@ -112,7 +112,8 @@ export const AddRecipe = () => {
             recipe.difficulty != -1 &&
             recipe.ingredients.length > 0 &&
             image != null &&
-            recipe.steps.length > 0) {
+            recipe.steps.length > 0) 
+        {
             await mutateAsync();
         }
     }
@@ -195,7 +196,7 @@ export const AddRecipe = () => {
             </div>
             <div className="row">
                 {recipe.ingredients.length > 0 &&
-                    <div className="col-6">
+                    <div className="col-12 col-xl-6">
                         <label className="ps-2">Składniki</label>
                         <div style={{ maxHeight: "300px" }} className="border rounded pe-3 pt-3 overflow-y-auto">
                             <ul>
@@ -213,7 +214,7 @@ export const AddRecipe = () => {
                         </div>
                     </div>}
                 {recipe.steps.length > 0 &&
-                    <div className="col-6">
+                    <div className="col-12 col-xl-6">
                         <label className="ps-2">Kroki</label>
                         <div style={{ maxHeight: "300px" }} className="border rounded pe-3 pt-3 overflow-y-auto">
                             <ul>

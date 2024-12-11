@@ -26,7 +26,7 @@ interface IngredientFormData {
     unitId: number;
 }
 
-interface RecipeFormData {
+interface RecipeAddData {
     name: string;
     description: string;
     difficulty: number;
@@ -35,6 +35,20 @@ interface RecipeFormData {
     categoryId: number;
     ingredients: IngredientFormData[];
     steps: string[];
+}
+
+interface RecipeEditData {
+    id: number;
+    name: string;
+    description: string;
+    difficulty: number;
+    prepareTime: number;
+    userId: number;
+    categoryId: number; 
+    ingredients: Ingredient[];
+    steps: Step[];
+    newIngredients: IngredientFormData[];
+    newSteps: string[];
 }
 
 interface Category {
@@ -57,6 +71,8 @@ interface Step {
 interface Opinion {
     id: number;
     content: string;
+    user: User;
+    createdAt: string;
 }
 
 interface Recipe {
@@ -66,7 +82,7 @@ interface Recipe {
     difficulty: number;
     prepareTime: number;
     category: Category;
-    user: User;
+    userId: number;
     ingredients: Ingredient[];
     steps: Step[];
     opinions: Opinion[];

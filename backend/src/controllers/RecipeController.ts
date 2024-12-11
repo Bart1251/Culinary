@@ -3,6 +3,7 @@ import { RecipeRepository } from '../repositories/RecipeRepository';
 import { sequlize } from '../dbconfig';
 import { IngredientRepository } from '../repositories/IngredientRepository';
 import { StepRepository } from '../repositories/StepRepository';
+import fs from "fs/promises";
 
 const recipeRepository = new RecipeRepository();
 const ingredientRepository = new IngredientRepository();
@@ -10,8 +11,6 @@ const stepRepository = new StepRepository();
 
 export const createRecipe = async (req: Request, res: Response) => {
     const transaction = await sequlize.transaction();
-    console.log(req.body);
-    
     try {
         const { name, description, difficulty, prepareTime, categoryId, userId } = req.body;
 
@@ -58,3 +57,102 @@ export const getUserRecipes = async (req: Request, res: Response) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const deleteRecipe = async (req: Request, res: Response) => {
+    try {
+        const recipeId = req.params.recipeId as string;
+
+        const recipe = await recipeRepository.findById(recipeId);
+    
+        if (recipe) {
+            if (recipe.imagePath) {
+                await fs.unlink(recipe.imagePath);
+            }
+
+            await recipe.destroy();
+            res.status(200).json({ message: "Recipe deleted successfully" });
+        } else {
+            res.status(404).json({ message: "Recipe not found" });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const getRecipe = async (req: Request, res: Response) => {
+    try {
+        const recipeId = req.params.recipeId;
+        res.json(await recipeRepository.findById(recipeId));
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const updateRecipe = async (req: Request, res: Response) => {
+    const transaction = await sequlize.transaction();
+    try {
+        const { id, name, description, difficulty, prepareTime, categoryId, newIngredients, newSteps, ingredientsToDelete, stepsToDelete } = req.body;
+
+        const recipe = await recipeRepository.findById(id);
+
+        recipe.name = name;
+        recipe.description = description;
+        recipe.difficulty = difficulty;
+        recipe.prepareTime = prepareTime;
+        recipe.categoryId = categoryId;
+
+        if (req.file?.path) {
+            if (recipe.imagePath) {
+                await fs.unlink(recipe.imagePath);
+            }
+            recipe.imagePath = req.file.path;
+        }
+
+        await recipe.save({ transaction });
+
+        // Usuwanie starych składników
+        if (ingredientsToDelete) {
+            const ingredientIdsToDelete = JSON.parse(ingredientsToDelete);
+            for (const i of ingredientIdsToDelete) {
+                await ingredientRepository.delete(i, transaction);
+            }
+        }
+
+        // Usuwanie starych kroków
+        if (stepsToDelete) {
+            const stepIdsToDelete = JSON.parse(stepsToDelete);
+            for (const s of stepIdsToDelete) {
+                await stepRepository.delete(s, transaction);
+            }
+        }
+
+        // Dodawanie nowych składników
+        if (newIngredients) {
+            const newIngredientsData = JSON.parse(newIngredients);
+            for (const ingredient of newIngredientsData) {
+                await ingredientRepository.create(
+                    { ...ingredient, recipeId: id },
+                    { transaction }
+                );
+            }
+        }
+
+        // Dodawanie nowych kroków
+        if (newSteps) {
+            const newStepsData = JSON.parse(newSteps);
+            for (const step of newStepsData) {
+                await stepRepository.create(
+                    { content: step.content, recipeId: id },
+                    { transaction }
+                );
+            }
+        }
+
+        await transaction.commit();
+        res.status(200).json({ message: "Recipe updated successfully" });
+    } catch (error) {
+        await transaction.rollback();
+        console.error("Error updating recipe:", error);
+        res.status(500).json({ error: error.message });
+    }
+};

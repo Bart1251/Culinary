@@ -30,13 +30,13 @@ class Recipe extends Model<Recipe> {
     @BelongsTo(() => Category)
     category: Category;
 
-    @HasMany(() => Ingredient)
-    ingredient: Ingredient[];
+    @HasMany(() => Ingredient, { onDelete: "CASCADE" })
+    ingredients: Ingredient[];
 
-    @HasMany(() => Step)
+    @HasMany(() => Step, { onDelete: "CASCADE" })
     steps: Step[];
 
-    @HasMany(() => Opinion)
+    @HasMany(() => Opinion, { onDelete: "CASCADE" })
     opinions: Opinion[];
 }
 

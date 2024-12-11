@@ -11,6 +11,7 @@ import { queryClient } from './queryClient'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Navbar } from './components/Navbar'
+import { Recipe } from './pages/Recipe'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path='login' element={<Login/>}/>
                 <Route path='register' element={<Register/>}/>
                 <Route path='profile/*' element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+                <Route path='recipe/:recipeId' element={<Recipe/>}/>
               </Routes>
             </div>
             <footer className='main-footer bg-dark-subtle d-flex align-items-center justify-content-center'>

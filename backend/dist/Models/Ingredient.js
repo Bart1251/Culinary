@@ -40,7 +40,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Ingredient.prototype, "recipeId", void 0);
 __decorate([
-    (0, sequelize_typescript_1.BelongsTo)(() => Recipe_1.default),
+    (0, sequelize_typescript_1.BelongsTo)(() => Recipe_1.default, { onDelete: "CASCADE" }),
     __metadata("design:type", Recipe_1.default)
 ], Ingredient.prototype, "recipe", void 0);
 Ingredient = __decorate([

@@ -59,15 +59,15 @@ __decorate([
     __metadata("design:type", Category_1.default)
 ], Recipe.prototype, "category", void 0);
 __decorate([
-    (0, sequelize_typescript_1.HasMany)(() => Ingredient_1.default),
+    (0, sequelize_typescript_1.HasMany)(() => Ingredient_1.default, { onDelete: "CASCADE" }),
     __metadata("design:type", Array)
-], Recipe.prototype, "ingredient", void 0);
+], Recipe.prototype, "ingredients", void 0);
 __decorate([
-    (0, sequelize_typescript_1.HasMany)(() => Step_1.default),
+    (0, sequelize_typescript_1.HasMany)(() => Step_1.default, { onDelete: "CASCADE" }),
     __metadata("design:type", Array)
 ], Recipe.prototype, "steps", void 0);
 __decorate([
-    (0, sequelize_typescript_1.HasMany)(() => Opinion_1.default),
+    (0, sequelize_typescript_1.HasMany)(() => Opinion_1.default, { onDelete: "CASCADE" }),
     __metadata("design:type", Array)
 ], Recipe.prototype, "opinions", void 0);
 Recipe = __decorate([

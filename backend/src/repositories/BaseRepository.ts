@@ -26,9 +26,10 @@ export class BaseRepository<T extends Model> {
         });
     }
 
-    async delete(id: number | string): Promise<number> {
+    async delete(id: number | string, transaction?: Transaction): Promise<number> {
         return this.model.destroy({
             where: { id } as any,
+            transaction,
         });
     }
 }

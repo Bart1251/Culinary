@@ -4,13 +4,14 @@ import { AddRecipe } from "./Profile/AddRecipe"
 import defaultUser from "../assets/user.png";
 import { CirclePlus, LogOut, ScrollText, Settings } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import { EditRecipe } from "./Profile/EditRecipe";
 
 export const Profile = () => {
     const { logoutUser, user } = useAuth();
 
     return (
         <div className="h-100 d-flex flex-row">
-            <div className="col-3 bg-body-secondary profile-sidebar">
+            <div className="col-3 col-xl-2 bg-body-secondary profile-sidebar">
                 <div className="d-flex flex-column align-items-center gap-3 p-3">
                     <h3 className="text-center">Mój profil</h3>
                     <img className="col-12 rounded-circle" src={defaultUser} />
@@ -38,11 +39,11 @@ export const Profile = () => {
                     </div>
                 </div>
             </div>
-            <div className="col-9 p-3">
+            <div className="col-9 col-xl-10 p-3">
                 <Routes>
                     <Route index element={<MyRecipes />} />
                     <Route path="addRecipe" element={<AddRecipe />} />
-                    <Route path="myRecipes" element={<AddRecipe />} />
+                    <Route path="editRecipe/:recipeId" element={<EditRecipe />} />
                 </Routes>
             </div>
         </div>

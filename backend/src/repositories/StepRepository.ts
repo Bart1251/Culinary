@@ -5,5 +5,4 @@ export class StepRepository extends BaseRepository<Step> {
   constructor() {
     super(Step);
   }
-
 }

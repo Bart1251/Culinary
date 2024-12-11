@@ -37,10 +37,11 @@ class BaseRepository {
             });
         });
     }
-    delete(id) {
+    delete(id, transaction) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.model.destroy({
                 where: { id },
+                transaction,
             });
         });
     }

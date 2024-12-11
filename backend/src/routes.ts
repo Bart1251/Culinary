@@ -3,7 +3,7 @@ import { authenticateToken } from "./jwt";
 import { checkAuthStatus, login, logout, register } from "./controllers/UserController";
 import { getUnits } from "./controllers/UnitController";
 import { getCategories } from "./controllers/CategoryController";
-import { createRecipe, getUserRecipes } from "./controllers/RecipeController";
+import { createRecipe, deleteRecipe, getRecipe, getUserRecipes, updateRecipe } from "./controllers/RecipeController";
 import multer from "multer";
 
 const router = Router()
@@ -29,11 +29,14 @@ router.post("/user/register", register);
 router.get("/unit", getUnits);
 
 //Category routes
-router.get("/category", getCategories)
+router.get("/category", getCategories);
 
 //Recipe routes
 router.post("/recipe", upload.single("image"), createRecipe);
-router.get("/recipe/user/:userId", getUserRecipes)
+router.get("/recipe/user/:userId", getUserRecipes);
+router.delete("/recipe/:recipeId", deleteRecipe);
+router.get("/recipe/:recipeId", getRecipe);
+router.patch("/recipe", upload.single("image"), updateRecipe);
 
 
 export default router;

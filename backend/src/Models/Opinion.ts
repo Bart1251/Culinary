@@ -10,7 +10,7 @@ class Opinion extends Model<Opinion> {
     @ForeignKey(() => Recipe)
     @Column({type: DataType.INTEGER, allowNull: false})
     recipeId: number;
-    @BelongsTo(() => Recipe)
+    @BelongsTo(() => Recipe, { onDelete: "CASCADE" })
     recipe: Recipe;
 
     @ForeignKey(() => User)

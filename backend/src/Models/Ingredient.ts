@@ -19,7 +19,7 @@ class Ingredient extends Model<Ingredient> {
     @ForeignKey(() => Recipe)
     @Column({type: DataType.INTEGER, allowNull: false})
     recipeId: number;
-    @BelongsTo(() => Recipe)
+    @BelongsTo(() => Recipe, { onDelete: "CASCADE" })
     recipe: Recipe;
 }
 

@@ -20,6 +20,7 @@ const Step_1 = __importDefault(require("../models/Step"));
 const Unit_1 = __importDefault(require("../models/Unit"));
 const Category_1 = __importDefault(require("../models/Category"));
 const Opinion_1 = __importDefault(require("../models/Opinion"));
+const User_1 = __importDefault(require("../models/User"));
 class RecipeRepository extends BaseRepository_1.BaseRepository {
     constructor() {
         super(Recipe_1.default);
@@ -45,6 +46,36 @@ class RecipeRepository extends BaseRepository_1.BaseRepository {
                     },
                     {
                         model: Opinion_1.default,
+                    }
+                ],
+            });
+        });
+    }
+    findById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.model.findByPk(id, {
+                include: [
+                    {
+                        model: Ingredient_1.default,
+                        include: [
+                            {
+                                model: Unit_1.default,
+                            },
+                        ],
+                    },
+                    {
+                        model: Step_1.default,
+                    },
+                    {
+                        model: Category_1.default,
+                    },
+                    {
+                        model: Opinion_1.default,
+                        include: [
+                            {
+                                model: User_1.default
+                            }
+                        ]
                     }
                 ],
             });
