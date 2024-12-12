@@ -55,3 +55,15 @@ export const getRecipe = async (recipeId: number) => {
     const response = await apiClient.get<Recipe>("/recipe/" + recipeId);
     return response.data;
 }
+
+export const getNewestRecipes = async () => {
+    const response = await apiClient.get<Recipe[]>("recipe/newest");
+    return response.data;
+}
+
+export const getLastSeenRecipes = async (ids: string[] | number[]) => {
+    const response = await apiClient.get<Recipe[]>("recipe/lastSeen", { params: { ids: ids } });
+    console.log(response.data);
+    
+    return response.data;
+}

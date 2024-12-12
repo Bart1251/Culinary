@@ -63,6 +63,39 @@ export class RecipeRepository extends BaseRepository<Recipe> {
           ]
         }
       ],
-  });
+    });
+  }
+
+  async findNewest(): Promise<Recipe[]> {
+    return this.model.findAll({
+      order: [
+        ['createdAt', 'DESC']
+      ],
+      limit: 20,
+      include: [
+        {
+          model: Ingredient,
+          include: [
+            {
+              model: Unit,
+            },
+          ],
+        },
+        {
+          model: Step,
+        },
+        {
+          model: Category,
+        },
+        {
+          model: Opinion,
+          include: [
+            {
+              model: User
+            }
+          ]
+        }
+      ],
+    })
   }
 }

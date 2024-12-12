@@ -37,14 +37,14 @@ export const RecipeTile: React.FC<props> = ({recipe, refetch}) => {
                                 {[...Array(recipe.difficulty)].map((_, index) => (
                                     <ChefHat key={index} fill="#9adb76" />
                                 ))}
-                                {[...Array(3 - recipe.difficulty)].map((_, index) => (
+                                {[...Array(3 - (recipe.difficulty??0))].map((_, index) => (
                                     <ChefHat key={index + recipe.difficulty} />
                                 ))}
                             </div>
                         </div>
                         <div>
                             <label>Kategoria</label>
-                            <p className="fw-light m-0">{recipe.category.name}</p>
+                            <p className="fw-light m-0">{recipe.category?.name}</p>
                         </div>
                     </div>
                 </div>

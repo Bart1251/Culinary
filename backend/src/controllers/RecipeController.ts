@@ -110,7 +110,6 @@ export const updateRecipe = async (req: Request, res: Response) => {
 
         await recipe.save({ transaction });
 
-        // Usuwanie starych składników
         if (ingredientsToDelete) {
             const ingredientIdsToDelete = JSON.parse(ingredientsToDelete);
             for (const i of ingredientIdsToDelete) {
@@ -118,7 +117,6 @@ export const updateRecipe = async (req: Request, res: Response) => {
             }
         }
 
-        // Usuwanie starych kroków
         if (stepsToDelete) {
             const stepIdsToDelete = JSON.parse(stepsToDelete);
             for (const s of stepIdsToDelete) {
@@ -126,7 +124,6 @@ export const updateRecipe = async (req: Request, res: Response) => {
             }
         }
 
-        // Dodawanie nowych składników
         if (newIngredients) {
             const newIngredientsData = JSON.parse(newIngredients);
             for (const ingredient of newIngredientsData) {
@@ -137,7 +134,6 @@ export const updateRecipe = async (req: Request, res: Response) => {
             }
         }
 
-        // Dodawanie nowych kroków
         if (newSteps) {
             const newStepsData = JSON.parse(newSteps);
             for (const step of newStepsData) {
@@ -156,3 +152,20 @@ export const updateRecipe = async (req: Request, res: Response) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const getNewestRecipes = async (req: Request, res: Response) => {
+    try {
+        res.json(await recipeRepository.findNewest())
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const getLastSeenRecipes = async (req: Request, res: Response) => {
+    try {
+        const ids = req.query.ids as string[];
+        res.json(await Promise.all(ids.map(async id => await recipeRepository.findById(id))));
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}

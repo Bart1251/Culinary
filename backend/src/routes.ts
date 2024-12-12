@@ -3,8 +3,9 @@ import { authenticateToken } from "./jwt";
 import { checkAuthStatus, login, logout, register } from "./controllers/UserController";
 import { getUnits } from "./controllers/UnitController";
 import { getCategories } from "./controllers/CategoryController";
-import { createRecipe, deleteRecipe, getRecipe, getUserRecipes, updateRecipe } from "./controllers/RecipeController";
+import { createRecipe, deleteRecipe, getLastSeenRecipes, getNewestRecipes, getRecipe, getUserRecipes, updateRecipe } from "./controllers/RecipeController";
 import multer from "multer";
+import { createOpinion } from "./controllers/OpinionController";
 
 const router = Router()
 
@@ -35,8 +36,13 @@ router.get("/category", getCategories);
 router.post("/recipe", upload.single("image"), createRecipe);
 router.get("/recipe/user/:userId", getUserRecipes);
 router.delete("/recipe/:recipeId", deleteRecipe);
+router.get("/recipe/newest", getNewestRecipes);
+router.get("/recipe/lastSeen", getLastSeenRecipes);
 router.get("/recipe/:recipeId", getRecipe);
 router.patch("/recipe", upload.single("image"), updateRecipe);
+
+//Opinion paths
+router.post("/opinion", createOpinion);
 
 
 export default router;

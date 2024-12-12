@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRecipe = exports.getRecipe = exports.deleteRecipe = exports.getUserRecipes = exports.createRecipe = void 0;
+exports.getLastSeenRecipes = exports.getNewestRecipes = exports.updateRecipe = exports.getRecipe = exports.deleteRecipe = exports.getUserRecipes = exports.createRecipe = void 0;
 const RecipeRepository_1 = require("../repositories/RecipeRepository");
 const dbconfig_1 = require("../dbconfig");
 const IngredientRepository_1 = require("../repositories/IngredientRepository");
@@ -143,4 +143,23 @@ const updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.updateRecipe = updateRecipe;
+const getNewestRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.json(yield recipeRepository.findNewest());
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+exports.getNewestRecipes = getNewestRecipes;
+const getLastSeenRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const ids = req.query.ids;
+        res.json(yield Promise.all(ids.map((id) => __awaiter(void 0, void 0, void 0, function* () { return yield recipeRepository.findById(id); }))));
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+exports.getLastSeenRecipes = getLastSeenRecipes;
 //# sourceMappingURL=RecipeController.js.map

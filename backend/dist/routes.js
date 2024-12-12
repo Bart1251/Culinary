@@ -10,6 +10,7 @@ const UnitController_1 = require("./controllers/UnitController");
 const CategoryController_1 = require("./controllers/CategoryController");
 const RecipeController_1 = require("./controllers/RecipeController");
 const multer_1 = __importDefault(require("multer"));
+const OpinionController_1 = require("./controllers/OpinionController");
 const router = (0, express_1.Router)();
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
@@ -30,7 +31,10 @@ router.get("/category", CategoryController_1.getCategories);
 router.post("/recipe", upload.single("image"), RecipeController_1.createRecipe);
 router.get("/recipe/user/:userId", RecipeController_1.getUserRecipes);
 router.delete("/recipe/:recipeId", RecipeController_1.deleteRecipe);
+router.get("/recipe/newest", RecipeController_1.getNewestRecipes);
+router.get("/recipe/lastSeen", RecipeController_1.getLastSeenRecipes);
 router.get("/recipe/:recipeId", RecipeController_1.getRecipe);
 router.patch("/recipe", upload.single("image"), RecipeController_1.updateRecipe);
+router.post("/opinion", OpinionController_1.createOpinion);
 exports.default = router;
 //# sourceMappingURL=routes.js.map
