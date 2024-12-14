@@ -1,8 +1,9 @@
-import { ChefHat, Pencil, Trash2 } from "lucide-react";
+import { ChefHat, Pencil, Star, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, useMutation } from "react-query";
 import { deleteRecipe } from "../apiServices/RecipeService";
+import { useEffect, useState } from "react";
 
 interface props {
     recipe: Recipe;
@@ -11,6 +12,15 @@ interface props {
 
 export const RecipeTile: React.FC<props> = ({recipe, refetch}) => {
     const { user } = useAuth();
+    const [isFav, setIsFav] = useState<boolean>(false);
+
+    useEffect(() => {
+        if(localStorage.getItem("fav") && localStorage.getItem("fav")?.split(";").includes(recipe.id.toString())) {
+            setIsFav(true);
+        } else {
+            setIsFav(false);
+        }
+    }, [recipe.id])
 
     const { mutateAsync } = useMutation(
         "deleteRecipe",
@@ -21,6 +31,18 @@ export const RecipeTile: React.FC<props> = ({recipe, refetch}) => {
             }
         }
     );
+
+    function changeFavourite() {
+        const fav = localStorage.getItem("fav") ? localStorage.getItem("fav")!.split(";") : [];
+        if(fav.includes(recipe.id.toString())) {
+            fav.splice(fav.findIndex(e => e == recipe.id.toString()), 1);
+            localStorage.setItem("fav", fav.join(";"));
+            setIsFav(false);
+        } else {
+            localStorage.setItem("fav", [...fav, recipe.id.toString()].join(";"));
+            setIsFav(true);
+        }
+    }
 
     return (
         <div className="col-12 col-sm-6 col-xl-3 p-2">
@@ -48,10 +70,10 @@ export const RecipeTile: React.FC<props> = ({recipe, refetch}) => {
                         </div>
                     </div>
                 </div>
-                {user?.id && recipe.userId == user.id && 
-                <div className="position-absolute end-0 top-0 d-flex gap-2 p-2">
-                    <Link to={"/profile/editRecipe/" + recipe.id} type="button" className="btn btn-outline-warning p-2"><Pencil /></Link>
-                    <button type="button" onClick={async (e) => {e.preventDefault(); e.stopPropagation(); await mutateAsync();}} className="btn btn-outline-danger p-2"><Trash2 /></button>
+                {user?.id && recipe.userId == user.id && <div className="position-absolute end-0 top-0 d-flex gap-2 p-2">
+                    <Link to={"/profile/editRecipe/" + recipe.id} type="button" className="btn btn-outline-success p-2"><Pencil fill="#fff"/></Link>
+                    <button type="button" onClick={(e) => {e.preventDefault(); e.stopPropagation(); changeFavourite(); refetch()}} className="btn btn-outline-warning p-2"><Star fill={isFav ? "#ffc107" : "#fff"} /></button>
+                    <button type="button" onClick={async (e) => {e.preventDefault(); e.stopPropagation(); await mutateAsync();}} className="btn btn-outline-danger p-2"><Trash2 fill="#fff"/></button>
                 </div>}
             </Link>
         </div>

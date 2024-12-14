@@ -81,6 +81,36 @@ class RecipeRepository extends BaseRepository_1.BaseRepository {
             });
         });
     }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.model.findAll({
+                include: [
+                    {
+                        model: Ingredient_1.default,
+                        include: [
+                            {
+                                model: Unit_1.default,
+                            },
+                        ],
+                    },
+                    {
+                        model: Step_1.default,
+                    },
+                    {
+                        model: Category_1.default,
+                    },
+                    {
+                        model: Opinion_1.default,
+                        include: [
+                            {
+                                model: User_1.default
+                            }
+                        ]
+                    }
+                ],
+            });
+        });
+    }
     findNewest() {
         return __awaiter(this, void 0, void 0, function* () {
             return this.model.findAll({

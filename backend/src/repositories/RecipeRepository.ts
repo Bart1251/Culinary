@@ -66,6 +66,35 @@ export class RecipeRepository extends BaseRepository<Recipe> {
     });
   }
 
+  async findAll(): Promise<Recipe[]> {
+    return this.model.findAll({
+      include: [
+        {
+          model: Ingredient,
+          include: [
+            {
+              model: Unit,
+            },
+          ],
+        },
+        {
+          model: Step,
+        },
+        {
+          model: Category,
+        },
+        {
+          model: Opinion,
+          include: [
+            {
+              model: User
+            }
+          ]
+        }
+      ],
+    });
+  }
+
   async findNewest(): Promise<Recipe[]> {
     return this.model.findAll({
       order: [

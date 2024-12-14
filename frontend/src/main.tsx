@@ -1,17 +1,18 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Route, Routes } from 'react-router'
-import { AuthProvider, ProtectedRoute } from './contexts/AuthContext'
-import { Home } from './pages/Home'
-import './index.css'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { AuthProvider, ProtectedRoute } from './contexts/AuthContext';
+import { Home } from './pages/Home';
+import './index.css';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Profile } from './pages/Profile'
-import { QueryClientProvider } from 'react-query'
-import { queryClient } from './queryClient'
-import { Login } from './pages/Login'
-import { Register } from './pages/Register'
-import { Navbar } from './components/Navbar'
-import { Recipe } from './pages/Recipe'
+import { Profile } from './pages/Profile';
+import { QueryClientProvider } from 'react-query';
+import { queryClient } from './queryClient';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { Navbar } from './components/Navbar';
+import { Recipe } from './pages/Recipe';
+import 'bootstrap/dist/js/bootstrap.js';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -161,10 +161,18 @@ export const getNewestRecipes = async (req: Request, res: Response) => {
     }
 }
 
-export const getLastSeenRecipes = async (req: Request, res: Response) => {
+export const getRecipesWithIds = async (req: Request, res: Response) => {
     try {
         const ids = req.query.ids as string[];
         res.json(await Promise.all(ids.map(async id => await recipeRepository.findById(id))));
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const getAllRecipes = async (req: Request, res: Response) => {
+    try {
+        res.json(await recipeRepository.findAll());
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

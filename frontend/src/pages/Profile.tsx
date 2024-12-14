@@ -2,9 +2,10 @@ import { Link, Route, Routes } from "react-router"
 import { MyRecipes } from "./Profile/MyRecipes"
 import { AddRecipe } from "./Profile/AddRecipe"
 import defaultUser from "../assets/user.png";
-import { CirclePlus, LogOut, ScrollText, Settings } from "lucide-react";
+import { CirclePlus, LogOut, ScrollText, Settings, Star } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { EditRecipe } from "./Profile/EditRecipe";
+import { Favourites } from "./Profile/Favourites";
 
 export const Profile = () => {
     const { logoutUser, user } = useAuth();
@@ -24,6 +25,10 @@ export const Profile = () => {
                             <span><ScrollText /></span>
                             <span className="d-none d-md-block">Moje przepisy</span>
                         </Link>
+                        <Link to="/profile/favourites" className="fs-5 d-flex gap-2 btn">
+                            <span><Star /></span>
+                            <span className="d-none d-md-block">Ulubione</span>
+                        </Link>
                         <Link to="/profile/addRecipe" className="fs-5 d-flex gap-2 btn">
                             <span><CirclePlus /></span>
                             <span className="d-none d-md-block">Dodaj przepis</span>
@@ -42,6 +47,7 @@ export const Profile = () => {
             <div className="col-9 col-xl-10 p-3">
                 <Routes>
                     <Route index element={<MyRecipes />} />
+                    <Route path="favourites" element={<Favourites />} />
                     <Route path="addRecipe" element={<AddRecipe />} />
                     <Route path="editRecipe/:recipeId" element={<EditRecipe />} />
                 </Routes>

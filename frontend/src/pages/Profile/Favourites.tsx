@@ -1,21 +1,13 @@
 import { useQuery } from "react-query"
-import { getUserRecipes } from "../../apiServices/RecipeService"
-import { useAuth } from "../../contexts/AuthContext"
 import { RecipeTile } from "../../components/RecipeTile";
+import { getFavouriteRecipes } from "../../apiServices/RecipeService";
 
 
-export const MyRecipes = () => {
-    const { user } = useAuth();
+export const Favourites = () => {
 
     const { data: recipes, refetch } = useQuery(
         "getUserRecipes",
-        async () => await getUserRecipes(user!.id),
-        {
-            onSuccess: (r) => {
-                console.log(r);
-                
-            }
-        }
+        async () => await getFavouriteRecipes(localStorage.getItem("fav") ? localStorage.getItem("fav")!.split(";") : [-1])
     )
 
     return (

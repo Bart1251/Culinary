@@ -62,8 +62,16 @@ export const getNewestRecipes = async () => {
 }
 
 export const getLastSeenRecipes = async (ids: string[] | number[]) => {
-    const response = await apiClient.get<Recipe[]>("recipe/lastSeen", { params: { ids: ids } });
-    console.log(response.data);
-    
+    const response = await apiClient.get<Recipe[]>("recipe/idList", { params: { ids: ids } });
+    return response.data;
+}
+
+export const getAllRecipes = async () => {
+    const response = await apiClient.get<Recipe[]>("recipe");
+    return response.data;
+}
+
+export const getFavouriteRecipes = async (ids: string[] | number[]) => {
+    const response = await apiClient.get<Recipe[]>("recipe/idList", { params: { ids: ids } });
     return response.data;
 }
