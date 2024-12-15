@@ -1,16 +1,17 @@
 import { ChefHat, Pencil, Star, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, useMutation } from "react-query";
+import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, UseMutateAsyncFunction, useMutation } from "react-query";
 import { deleteRecipe } from "../apiServices/RecipeService";
 import { useEffect, useState } from "react";
 
 interface props {
     recipe: Recipe;
-    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<Recipe[], unknown>>
+    refetch?: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<Recipe[], unknown>>;
+    mutate?: UseMutateAsyncFunction<Recipe[], unknown, void, unknown>;
 }
 
-export const RecipeTile: React.FC<props> = ({recipe, refetch}) => {
+export const RecipeTile: React.FC<props> = ({recipe, refetch, mutate}) => {
     const { user } = useAuth();
     const [isFav, setIsFav] = useState<boolean>(false);
 
@@ -27,7 +28,10 @@ export const RecipeTile: React.FC<props> = ({recipe, refetch}) => {
         async () => await deleteRecipe(recipe.id),
         {
             onSuccess: async () => {
-                await refetch();
+                if(refetch) 
+                    await refetch!();
+                else 
+                    await mutate!();
             }
         }
     );
@@ -72,7 +76,7 @@ export const RecipeTile: React.FC<props> = ({recipe, refetch}) => {
                 </div>
                 {user?.id && recipe.userId == user.id && <div className="position-absolute end-0 top-0 d-flex gap-2 p-2">
                     <Link to={"/profile/editRecipe/" + recipe.id} type="button" className="btn btn-outline-success p-2"><Pencil fill="#fff"/></Link>
-                    <button type="button" onClick={(e) => {e.preventDefault(); e.stopPropagation(); changeFavourite(); refetch()}} className="btn btn-outline-warning p-2"><Star fill={isFav ? "#ffc107" : "#fff"} /></button>
+                    <button type="button" onClick={(e) => {e.preventDefault(); e.stopPropagation(); changeFavourite(); if(refetch) refetch!(); else mutate!()}} className="btn btn-outline-warning p-2"><Star fill={isFav ? "#ffc107" : "#fff"} /></button>
                     <button type="button" onClick={async (e) => {e.preventDefault(); e.stopPropagation(); await mutateAsync();}} className="btn btn-outline-danger p-2"><Trash2 fill="#fff"/></button>
                 </div>}
             </Link>

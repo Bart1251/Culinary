@@ -2,7 +2,7 @@ import { Link, Route, Routes } from "react-router"
 import { MyRecipes } from "./Profile/MyRecipes"
 import { AddRecipe } from "./Profile/AddRecipe"
 import defaultUser from "../assets/user.png";
-import { CirclePlus, LogOut, ScrollText, Settings, Star } from "lucide-react";
+import { CirclePlus, LogOut, ScrollText, Star } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { EditRecipe } from "./Profile/EditRecipe";
 import { Favourites } from "./Profile/Favourites";
@@ -32,10 +32,6 @@ export const Profile = () => {
                         <Link to="/profile/addRecipe" className="fs-5 d-flex gap-2 btn">
                             <span><CirclePlus /></span>
                             <span className="d-none d-md-block">Dodaj przepis</span>
-                        </Link>
-                        <Link to="/profile/settings" className="fs-5 d-flex gap-2 btn">
-                            <span><Settings /></span>
-                            <span className="d-none d-md-block">Ustawienia</span>
                         </Link>
                         <div onClick={logoutUser} className="fs-5 d-flex gap-2 btn">
                             <span><LogOut /></span>

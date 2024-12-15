@@ -21,6 +21,7 @@ const Unit_1 = __importDefault(require("../models/Unit"));
 const Category_1 = __importDefault(require("../models/Category"));
 const Opinion_1 = __importDefault(require("../models/Opinion"));
 const User_1 = __importDefault(require("../models/User"));
+const sequelize_1 = require("sequelize");
 class RecipeRepository extends BaseRepository_1.BaseRepository {
     constructor() {
         super(Recipe_1.default);
@@ -142,6 +143,22 @@ class RecipeRepository extends BaseRepository_1.BaseRepository {
                         ]
                     }
                 ],
+            });
+        });
+    }
+    findInspirations(ingredients) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.model.findAll({
+                include: [
+                    {
+                        model: Ingredient_1.default,
+                        where: {
+                            name: {
+                                [sequelize_1.Op.in]: ingredients,
+                            },
+                        },
+                    },
+                ]
             });
         });
     }

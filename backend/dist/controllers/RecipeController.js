@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllRecipes = exports.getRecipesWithIds = exports.getNewestRecipes = exports.updateRecipe = exports.getRecipe = exports.deleteRecipe = exports.getUserRecipes = exports.createRecipe = void 0;
+exports.getInspirations = exports.getAllRecipes = exports.getRecipesWithIds = exports.getNewestRecipes = exports.updateRecipe = exports.getRecipe = exports.deleteRecipe = exports.getUserRecipes = exports.createRecipe = void 0;
 const RecipeRepository_1 = require("../repositories/RecipeRepository");
 const dbconfig_1 = require("../dbconfig");
 const IngredientRepository_1 = require("../repositories/IngredientRepository");
@@ -171,4 +171,14 @@ const getAllRecipes = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getAllRecipes = getAllRecipes;
+const getInspirations = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const ingredients = req.query.ingredients;
+        res.json(yield recipeRepository.findInspirations(ingredients));
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+exports.getInspirations = getInspirations;
 //# sourceMappingURL=RecipeController.js.map

@@ -31,6 +31,7 @@ router.get("/category", CategoryController_1.getCategories);
 router.post("/recipe", upload.single("image"), RecipeController_1.createRecipe);
 router.get("/recipe/user/:userId", RecipeController_1.getUserRecipes);
 router.delete("/recipe/:recipeId", RecipeController_1.deleteRecipe);
+router.get("/recipe/inspirations", RecipeController_1.getInspirations);
 router.get("/recipe/newest", RecipeController_1.getNewestRecipes);
 router.get("/recipe/idList", RecipeController_1.getRecipesWithIds);
 router.get("/recipe/:recipeId", RecipeController_1.getRecipe);

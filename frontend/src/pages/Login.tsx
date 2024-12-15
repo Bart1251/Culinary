@@ -20,16 +20,19 @@ export const Login = () => {
     }
 
     return (
-        <form onSubmit={submit}>
-            <div>
-                <label htmlFor="email">Email</label>
-                <input type="email" value={loginData.email} id="email" name="email" onChange={handleChange}/>
+        <form onSubmit={submit} className="d-flex justify-content-center align-items-center w-100" style={{height: "calc(100vh - 160px)"}}>
+            <div className="col-12 col-sm-9 col-md-6 col-xl-4 d-flex flex-column gap-3 align-items-center border bg-body-secondary p-3">
+                <h3>Zaloguj się</h3>
+                <div className="w-100">
+                    <label htmlFor="email" className="ms-1">Email</label>
+                    <input type="email" className="form-control" value={loginData.email} id="email" name="email" onChange={handleChange}/>
+                </div>
+                <div className="w-100">
+                    <label htmlFor="password" className="ms-1">Hasło</label>
+                    <input type="password" className="form-control" value={loginData.password} id="password" name="password" onChange={handleChange}/>
+                </div>
+                <button type="submit" className="btn btn-success w-75">Zaloguj się</button>
             </div>
-            <div>
-                <label htmlFor="password">Hasło</label>
-                <input type="password" value={loginData.password} id="password" name="password" onChange={handleChange}/>
-            </div>
-            <button type="submit">Zaloguj się</button>
         </form>
     )
 }

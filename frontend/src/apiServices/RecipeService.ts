@@ -75,3 +75,10 @@ export const getFavouriteRecipes = async (ids: string[] | number[]) => {
     const response = await apiClient.get<Recipe[]>("recipe/idList", { params: { ids: ids } });
     return response.data;
 }
+
+export const getInspirations = async (ingredients: string[]) => {
+    console.log("dupa");
+    
+    const response = await apiClient.get<Recipe[]>("recipe/inspirations", { params: { ingredients: ingredients } });
+    return response.data;
+}

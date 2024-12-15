@@ -1,8 +1,8 @@
-import { useQuery } from "react-query"
-import { getAllRecipes, getLastSeenRecipes, getNewestRecipes } from "../apiServices/RecipeService"
+import { useMutation, useQuery } from "react-query"
+import { getAllRecipes, getInspirations, getLastSeenRecipes, getNewestRecipes } from "../apiServices/RecipeService"
 import { RecipeTile } from "../components/RecipeTile";
 import { getCategories } from "../apiServices/categoryApiService";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Search } from "lucide-react";
 
 export const Home = () => {
@@ -11,6 +11,9 @@ export const Home = () => {
     const [maxPrepareTime, setMaxPrepareTime] = useState<string>("0");
     const [filteredRecipes, setFilteredRecipies] = useState<Recipe[]>([]);
     const [nameFilter, setNameFilter] = useState<string>("");
+    const [inspirationIngredients, setInspirationIngredients] = useState<string[]>([]);
+    const [inspirationIngredient, setInspirationIngredient] = useState<string>("");
+    const [inspirations, setInspirations] = useState<Recipe[]>([]);
 
     function filterRecipies() {
         setFilteredRecipies(
@@ -68,6 +71,30 @@ export const Home = () => {
             }
         }
     );
+
+    function deleteInspirationIngredient(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        setInspirationIngredients(inspirationIngredients.filter(ii => ii != (e.target as HTMLButtonElement).previousSibling!.textContent));
+    }
+
+    function addInspirationIngredient(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if(inspirationIngredient.length > 0 && !inspirationIngredients.includes(inspirationIngredient)) {
+            setInspirationIngredients([...inspirationIngredients, inspirationIngredient]);
+            setInspirationIngredient("");
+        }
+    }
+
+    const { mutateAsync } = useMutation(
+        "getInspirations",
+        async () => await getInspirations(inspirationIngredients),
+        {
+            onSuccess: (res) => {
+                console.log(res);
+                
+                setInspirations(res);
+            }
+        }
+    )
 
     return (
         <div className="d-flex flex-column gap-3 p-3 container recipe-main" style={{minHeight: "calc(100vh - 160px)"}}>
@@ -145,6 +172,30 @@ export const Home = () => {
                 )}
                 </div>
             </div>}
+            <div className="d-flex flex-column gap-3">
+                <h3 className="fs-2 mb-0">Generator inspiracji</h3>
+                <p>Wprowadź składniki i otrzymaj przepisy które je zawierją</p>
+                <form className="row" onSubmit={addInspirationIngredient}>
+                    <div className="col-9"><input type="text" name="ingredient" value={inspirationIngredient} onChange={(e) => {setInspirationIngredient(e.target.value)}} className="form-control" placeholder="Nazwa składnika"/></div>
+                    <div className="col-3 d-flex justify-content-center"><button type="submit" className="btn btn-outline-success w-75">Dodaj</button></div>
+                </form>
+                {inspirationIngredients && <div className="d-flex flex-row overflow-x-auto gap-2">
+                    {inspirationIngredients.map((ii, n) => 
+                        <div key={n} className="border rounded border-secondary p-1 gap-2 d-flex">
+                            <label>{ii}</label>
+                            <button type="button" style={{lineHeight: "8px"}} className="btn btn-outline-secondary p-1" onClick={deleteInspirationIngredient}>x</button>
+                        </div>
+                    )}
+                </div>}
+                <form onSubmit={async (e) => {e.preventDefault(); if(inspirationIngredients.length > 0) await mutateAsync()}} className="d-flex justify-content-center">
+                    <button type="submit" className="btn btn-success w-50">Znajdź inspiracje</button>
+                </form>
+                {inspirations && inspirations[0] && <div className="d-flex flex-row gap-3 overflow-x-auto border rounded">
+                {inspirations.map((i, n) => 
+                    <RecipeTile key={n} recipe={i} mutate={mutateAsync}/>
+                )}
+                </div>}
+            </div>
         </div>
     )
 }

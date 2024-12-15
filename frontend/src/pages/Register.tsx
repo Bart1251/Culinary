@@ -20,20 +20,23 @@ export const Register = () => {
     }
 
     return (
-        <form onSubmit={submit}>
-            <div>
-                <label htmlFor="username">Nazwa użytkownika</label>
-                <input type="text" value={registerData.username} id="username" name="username" onChange={handleChange} />
+        <form onSubmit={submit} className="d-flex justify-content-center align-items-center w-100" style={{height: "calc(100vh - 160px)"}}>
+            <div className="col-12 col-sm-9 col-md-6 col-xl-4 d-flex flex-column gap-3 align-items-center border bg-body-secondary p-3">
+                <h3>Zarejestruj się</h3>
+                <div className="w-100">
+                    <label htmlFor="username">Nazwa użytkownika</label>
+                    <input type="text" className="form-control" value={registerData.username} id="username" name="username" onChange={handleChange} />
+                </div>
+                <div className="w-100">
+                    <label htmlFor="email">Email</label>
+                    <input type="email" className="form-control" value={registerData.email} id="email" name="email" onChange={handleChange} />
+                </div>
+                <div className="w-100">
+                    <label htmlFor="password">Hasło</label>
+                    <input type="password" className="form-control" value={registerData.password} id="password" name="password" onChange={handleChange} />
+                </div>
+                <button type="submit" className="btn btn-success w-75">Zarejestruj się</button>
             </div>
-            <div>
-                <label htmlFor="email">Email</label>
-                <input type="email" value={registerData.email} id="email" name="email" onChange={handleChange} />
-            </div>
-            <div>
-                <label htmlFor="password">Hasło</label>
-                <input type="password" value={registerData.password} id="password" name="password" onChange={handleChange} />
-            </div>
-            <button type="submit">Zarejestruj się</button>
         </form>
     )
 }

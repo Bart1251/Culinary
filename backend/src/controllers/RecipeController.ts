@@ -177,3 +177,12 @@ export const getAllRecipes = async (req: Request, res: Response) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const getInspirations = async (req: Request, res: Response) => {
+    try {
+        const ingredients = req.query.ingredients as string[];
+        res.json(await recipeRepository.findInspirations(ingredients));
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}

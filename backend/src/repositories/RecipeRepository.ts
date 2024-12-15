@@ -6,6 +6,7 @@ import Unit from "../models/Unit";
 import Category from "../models/Category";
 import Opinion from "../models/Opinion";
 import User from "../models/User";
+import { Op } from "sequelize";
 
 export class RecipeRepository extends BaseRepository<Recipe> {
   constructor() {
@@ -126,5 +127,20 @@ export class RecipeRepository extends BaseRepository<Recipe> {
         }
       ],
     })
+  }
+
+  async findInspirations(ingredients: string[]): Promise<Recipe[]> {
+    return this.model.findAll({
+      include: [
+        {
+          model: Ingredient,
+          where: {
+            name: {
+              [Op.in]: ingredients,
+            },
+          },
+        },
+      ]
+    });
   }
 }
