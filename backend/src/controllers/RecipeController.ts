@@ -138,7 +138,7 @@ export const updateRecipe = async (req: Request, res: Response) => {
             const newStepsData = JSON.parse(newSteps);
             for (const step of newStepsData) {
                 await stepRepository.create(
-                    { content: step.content, recipeId: id },
+                    { content: step, recipeId: id },
                     { transaction }
                 );
             }

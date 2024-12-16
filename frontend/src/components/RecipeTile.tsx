@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { QueryObserverResult, RefetchOptions, RefetchQueryFilters, UseMutateAsyncFunction, useMutation } from "react-query";
 import { deleteRecipe } from "../apiServices/RecipeService";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface props {
     recipe: Recipe;
@@ -25,7 +26,11 @@ export const RecipeTile: React.FC<props> = ({recipe, refetch, mutate}) => {
 
     const { mutateAsync } = useMutation(
         "deleteRecipe",
-        async () => await deleteRecipe(recipe.id),
+        async () => await toast.promise(deleteRecipe(recipe.id), {
+            pending: "W trakcie usuwania przepisu",
+            error: "Nie udało się usunąć przepisu",
+            success: "Przepis usunięty"
+        },),
         {
             onSuccess: async () => {
                 if(refetch) 
@@ -42,9 +47,11 @@ export const RecipeTile: React.FC<props> = ({recipe, refetch, mutate}) => {
             fav.splice(fav.findIndex(e => e == recipe.id.toString()), 1);
             localStorage.setItem("fav", fav.join(";"));
             setIsFav(false);
+            toast.warning("Usunięto z ulubionych");
         } else {
             localStorage.setItem("fav", [...fav, recipe.id.toString()].join(";"));
             setIsFav(true);
+            toast.success("Dodano do ulubionych");
         }
     }
 

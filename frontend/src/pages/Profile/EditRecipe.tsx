@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router"
 import { getRecipe, updateRecipe } from "../../apiServices/RecipeService";
 import { getUnits } from "../../apiServices/UnitService";
 import { getCategories } from "../../apiServices/categoryApiService";
+import { toast } from "react-toastify";
 
 
 export const EditRecipe = () => {
@@ -160,6 +161,7 @@ export const EditRecipe = () => {
 
     async function submit(e: React.FormEvent) {
         e.preventDefault();
+        
         if (recipe.name.length > 0 &&
             recipe.description.length > 0 &&
             recipe.prepareTime > 0 &&
@@ -174,7 +176,11 @@ export const EditRecipe = () => {
 
     const { mutateAsync } = useMutation(
         "updateRecipe",
-        async () => updateRecipe(recipe, ingredientsToDelete, stepsToDelete, image),
+        async () => await toast.promise(updateRecipe(recipe, ingredientsToDelete, stepsToDelete, image),{
+            pending: "W trakcie edytowania przepisu",
+            error: "Nie udało się zedytować przepisu",
+            success: "Przepis zedytowany"
+        }),
         {
             onSuccess: () => {
                 navigate(-1);

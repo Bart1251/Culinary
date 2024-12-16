@@ -130,7 +130,7 @@ const updateRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         if (newSteps) {
             const newStepsData = JSON.parse(newSteps);
             for (const step of newStepsData) {
-                yield stepRepository.create({ content: step.content, recipeId: id }, { transaction });
+                yield stepRepository.create({ content: step, recipeId: id }, { transaction });
             }
         }
         yield transaction.commit();

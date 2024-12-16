@@ -66,7 +66,7 @@ export const Home = () => {
         async () => await getAllRecipes(),
         {
             onSuccess: (res) => {
-                setMaxPrepareTime(res ? res?.sort((a, b) => b.prepareTime - a.prepareTime)[0].prepareTime.toString() : "0")
+                setMaxPrepareTime(res && res[0] ? res?.sort((a, b) => b.prepareTime - a.prepareTime)[0].prepareTime.toString() : "0")
                 filterRecipies();
             }
         }
@@ -89,8 +89,6 @@ export const Home = () => {
         async () => await getInspirations(inspirationIngredients),
         {
             onSuccess: (res) => {
-                console.log(res);
-                
                 setInspirations(res);
             }
         }
@@ -132,7 +130,7 @@ export const Home = () => {
                     <div className="col-4">
                         <label htmlFor="maxTime">Maksymalny czas przygotowania</label>
                         <div className="d-flex flex-row align-items-center gap-3">
-                            <input type="range" id="maxTime" className="form-range w-75" value={maxPrepareTime} onChange={(e) => setMaxPrepareTime(e.target.value)} step={1} min={1} max={recipes ? recipes?.sort((a, b) => b.prepareTime - a.prepareTime)[0].prepareTime : 0}/>
+                            <input type="range" id="maxTime" className="form-range w-75" value={maxPrepareTime} onChange={(e) => setMaxPrepareTime(e.target.value)} step={1} min={1} max={recipes && recipes[0] ? recipes?.sort((a, b) => b.prepareTime - a.prepareTime)[0].prepareTime : 0}/>
                             <label className="w-25 text-center">{maxPrepareTime} min</label>
                         </div>
                     </div>
@@ -150,13 +148,13 @@ export const Home = () => {
                         <RecipeTile key={n} recipe={r} refetch={refetch}/>
                     )}
                 </div>}
-                {filterRecipies.length == 0 && 
+                {filteredRecipes.length == 0 && 
                 <div className="d-flex align-items-center justify-content-center border rounded" style={{height: "100px"}}>
                     <p>Brak wyników</p>
                 </div>
                 }
             </form>
-            {newestRecipes && <div>
+            {newestRecipes && newestRecipes[0] && <div>
                 <h3 className="fs-2">Sprawdź nowości</h3>
                 <div className="d-flex flex-row gap-3 overflow-x-auto border rounded">
                 {newestRecipes.map((nr, n) => 
@@ -164,7 +162,7 @@ export const Home = () => {
                 )}
                 </div>
             </div>}
-            {localStorage.getItem("last") && lastSeenRecipes && <div>
+            {localStorage.getItem("last") && lastSeenRecipes && lastSeenRecipes[0] && <div>
                 <h3 className="fs-2">Wróć do ostatnio przeglądanych</h3>
                 <div className="d-flex flex-row gap-3 overflow-x-auto border rounded">
                 {lastSeenRecipes.map((lr, n) => 

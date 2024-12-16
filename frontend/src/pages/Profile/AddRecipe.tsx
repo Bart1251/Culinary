@@ -5,6 +5,7 @@ import { getCategories } from "../../apiServices/categoryApiService";
 import { createRecipe } from "../../apiServices/RecipeService";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../contexts/AuthContext";
+import { toast } from "react-toastify";
 
 
 export const AddRecipe = () => {
@@ -120,7 +121,11 @@ export const AddRecipe = () => {
 
     const { mutateAsync } = useMutation(
         "createRecipe",
-        async () => await createRecipe({ ...recipe, userId: user!.id }, image!),
+        async () => await toast.promise(createRecipe({ ...recipe, userId: user!.id }, image!), {
+            pending: "W trakcie tworzenia przepisu",
+            error: "Nie udało się stworzyć przepisu",
+            success: "Przepis utworzony"
+        }),
         {
             onSuccess: () => {
                 navigate("/profile");

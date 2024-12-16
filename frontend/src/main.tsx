@@ -13,6 +13,8 @@ import { Register } from './pages/Register';
 import { Navbar } from './components/Navbar';
 import { Recipe } from './pages/Recipe';
 import 'bootstrap/dist/js/bootstrap.js';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -20,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <>
+            <ToastContainer/>
             <Navbar/>
             <div className='main-content'>
               <Routes>
@@ -31,7 +34,7 @@ createRoot(document.getElementById('root')!).render(
               </Routes>
             </div>
             <footer className='main-footer bg-dark-subtle d-flex align-items-center justify-content-center'>
-              Copyright xd
+              Culinary© {new Date().getFullYear()}
             </footer>
           </>
         </AuthProvider>
